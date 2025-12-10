@@ -18,7 +18,7 @@ class _AmountScreenState extends State<AmountScreen>
   String _note = '';
 
   bool _keyboardVisible = false;
-
+  late final AnimationController _infiniteIconController;
   late final AnimationController _chipsController;
   final List<String> _chips = [
     'Gift',
@@ -59,6 +59,11 @@ class _AmountScreenState extends State<AmountScreen>
         upperBound: 0.12,
       ));
     }
+
+    _infiniteIconController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
   }
 
   @override
@@ -67,6 +72,7 @@ class _AmountScreenState extends State<AmountScreen>
     for (final c in _chipPopControllers) {
       c.dispose();
     }
+    _infiniteIconController.dispose();
     super.dispose();
   }
 
@@ -156,6 +162,7 @@ class _AmountScreenState extends State<AmountScreen>
                       icons: _icons,
                       controller: _chipsController,
                       popControllers: _chipPopControllers,
+                      infiniteIconController: _infiniteIconController,
                       onTap: _onChipTap,
                     ),
                     CustomKeyboard(onTap: _onKeyboardTap),
